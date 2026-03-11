@@ -12,6 +12,7 @@ test('Frames Demo', async({page}) => {
 
    console.log('frames founded:',frames.length);
 
+   /*
     //approach 1: Using page.frame()
    const frame = page.frame({ url: "https://ui.vision/demo/webtest/frames/frame_1.html"});
 
@@ -23,19 +24,43 @@ test('Frames Demo', async({page}) => {
    else{
         console.log("Frame is not Available");
    }
-
+    */
 
    //Approach 2: Using Framelocator()
 
-   const inputBox =  page.frameLocator("[src='frame_3.html']").locator("[name='mytext3']");
+   const inputBox =  page.frameLocator("[src='frame_1.html']").locator("[name='mytext1']");
 
-   inputBox.fill('Hello World');
+   await inputBox.fill('Hello World');
    await expect (inputBox).toHaveValue('Hello World');
 
    await page.waitForTimeout(5000);
 
 });
 
+test.only('Inner/child Frames', async ({page}) => {
+            
+    await page.goto('https://ui.vision/demo/webtest/frames/');
 
+
+    const frame3 = page.frame({ url:'https://ui.vision/demo/webtest/frames/frame_3.html'});
+
+    if(frame3)
+    {
+        await frame3.locator("[name='mytext3']").fill("Welcome");//fill text inside frame
+        const childFrame = frame3.childFrames(); //variable with handles the iframe
+        console.log('childFrame Found: ', childFrame.length); //identifies how many iframes
+        const radio = childFrame[0].getByLabel('I am a human'); //Locate element
+        await radio.check()//checks the checkbox
+        await expect(radio).toBeChecked();//assertion
+
+    }
+    else{
+        
+        console.log('Frame not Found...')
+    }
+    
+    await page.waitForTimeout(5000);
+
+});
 
 

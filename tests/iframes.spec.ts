@@ -47,7 +47,7 @@ test.only('Inner/child Frames', async ({page}) => {
     if(frame3)
     {
         await frame3.locator("[name='mytext3']").fill("Welcome");//fill text inside frame
-        const childFrame = frame3.childFrames(); //variable with handles the iframe
+        const childFrame = frame3.childFrames(); //variable that handles the iframe
         console.log('childFrame Found: ', childFrame.length); //identifies how many iframes
         const radio = childFrame[0].getByLabel('I am a human'); //Locate element
         await radio.check()//checks the checkbox

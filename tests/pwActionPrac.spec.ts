@@ -139,7 +139,7 @@ import {test, expect, Locator} from '@playwright/test'
     });
 
 
-    test.only('Prompt Alert', async ({page}) => {
+    test('Prompt Alert', async ({page}) => {
 
         await page.goto('https://testautomationpractice.blogspot.com/');
         await expect(page).toHaveTitle(/Automation Test/);

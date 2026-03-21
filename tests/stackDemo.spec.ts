@@ -8,10 +8,13 @@ test('Verify Product Sorting', async({page}) => {
  
 
 
-    const orderDropdown = page.getByRole('combobox');
-    await orderDropdown.selectOption('lowestprice');
-
+    const orderDropdown = page.locator('.sort select');
+    
+    
     await expect(orderDropdown).toBeVisible();
+    await expect(orderDropdown).toBeEnabled();
+
+    await orderDropdown.selectOption('lowestprice');
    
 
     
@@ -22,6 +25,10 @@ test('Retrive product name and price', async ({page}) => {
 
     await page.goto('https://www.bstackdemo.com/');
 
-    
+    const productNames = page.locator('.shelf-item').allTextContents();
+    const productPrice = page.locator('.val b').allTextContents();
+
+
+    console.log("product Price elements: ", productNames);
     
 });

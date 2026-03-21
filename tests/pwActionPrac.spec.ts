@@ -151,6 +151,7 @@ import {test, expect, Locator} from '@playwright/test'
             console.log("Dialog type is: ",dialog.type()); //returns the type of the dialog
             expect(dialog.type()).toContain('prompt');
             console.log("Dialog Text: ",dialog.message()); //returns the message from dialog
+            
             expect(dialog.message()).toContain("Please enter your name:");
             expect (dialog.defaultValue()).toContain("Harry Potter"); //checks the defaultValue
 

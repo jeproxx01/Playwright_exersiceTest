@@ -37,7 +37,7 @@ test('Frames Demo', async({page}) => {
 
 });
 
-test.only('Inner/child Frames', async ({page}) => {
+test('Inner/child Frames', async ({page}) => {
             
     await page.goto('https://ui.vision/demo/webtest/frames/');
 
@@ -63,4 +63,62 @@ test.only('Inner/child Frames', async ({page}) => {
 
 });
 
+test('Verify frame 2 Functionality', async({page}) =>{
+
+    await page.goto('https://ui.vision/demo/webtest/frames/');
+
+    const frame2 = page.frame({url:'https://ui.vision/demo/webtest/frames/frame_2.html'});
+
+    if(frame2)
+    {
+        await frame2.locator("[name='mytext2']").fill('Hello Guys');
+        const childframe1 = frame2.childFrames();
+        console.log('Childframes found: ', childframe1.length);
+    }
+    else{
+        console.log('Frame not Found...');
+    }
+});
+
+test('Verify frame 4 Functionality', async({page}) =>{
+
+    await page.goto('https://ui.vision/demo/webtest/frames/');
+
+    const inputField = page.frameLocator('[src="frame_4.html"]').locator('[name="mytext4"]');
+    await inputField.fill('hello guuuys');
+    await expect(inputField).toHaveValue('hello guuuys');
+
+    const frame4 = page.frame({url:"https://ui.vision/demo/webtest/frames/frame_4.html"});
+    if(frame4)
+    {
+        const childframe4 = frame4.childFrames();
+        console.log('iframes found: ',childframe4.length);
+    }
+    else{
+        console.log('Frames not Found...');
+    }
+
+    await page.waitForTimeout(5000);
+});
+
+test('verify Frame 5 Functionality', async({page}) =>{
+
+    await page.goto('https://ui.vision/demo/webtest/frames/');
+
+    const frame5 = page.frameLocator('[src="frame_5.html"]');
+    
+    const textbox = frame5.locator('[name="mytext5"]');
+
+    await textbox.fill('hello world');
+    await expect(textbox).toHaveValue('hello world');
+
+  
+    const frameContent =  frame5.getByRole('link', { name: 'https://a9t9.com' });
+    await frameContent.click();
+    
+    await expect(page.locator('frame').nth(4).contentFrame().getByRole('link', { name: 'Ui.Vision by a9t9 software -' })).toBeVisible();
+    
+    await page.waitForTimeout(5000);
+    
+});
 

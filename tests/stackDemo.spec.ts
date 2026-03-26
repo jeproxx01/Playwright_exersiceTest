@@ -25,8 +25,8 @@ test('Retrive product name and price', async ({page}) => {
 
     await page.goto('https://www.bstackdemo.com/');
 
-    const productNames = page.locator('.shelf-item').allTextContents();
-    const productPrice = page.locator('.val b').allTextContents();
+    const productNames = await page.locator('.shelf-item').allTextContents();
+    const productPrice = await page.locator('.val b').allTextContents();
 
 
     console.log("product Price elements: ", productNames);

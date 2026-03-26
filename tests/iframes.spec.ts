@@ -50,7 +50,7 @@ test('Inner/child Frames', async ({page}) => {
         const childFrame = frame3.childFrames(); //variable that handles the iframe
         console.log('childFrame Found: ', childFrame.length); //identifies how many iframes
         const radio = childFrame[0].getByLabel('I am a human'); //Locate element
-        await radio.check()//checks the checkbox
+        await radio.click()//clicks the checkbox
         await expect(radio).toBeChecked();//assertion
 
     }

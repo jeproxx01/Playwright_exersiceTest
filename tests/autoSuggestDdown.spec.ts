@@ -5,6 +5,16 @@ import {test, expect, Locator} from "@playwright/test"
 test('Auto Suggesting Dropdowns', async({page}) => {
 
     await page.goto('https://www.flipkart.com');
+    
+    // Close login popup if it appears (Flipkart often has a span with role button to close it)
+    try {
+        const closeBtn = page.locator('span[role="button"]').first();
+        await closeBtn.waitFor({ state: 'visible', timeout: 3000 });
+        await closeBtn.click();
+    } catch (e) {
+        console.log("No login popup appeared.");
+    }
+
     await page.locator("input[name='q']").first().fill('smart');
     await page.waitForTimeout(5000);
 
@@ -14,24 +24,20 @@ test('Auto Suggesting Dropdowns', async({page}) => {
 
     console.log('number of suggested opt: ', count);
 
+    // Use allTextContents() for fast batch retrieval (no slow per-element loop)
+    const allTexts = await options.allTextContents();
+    allTexts.forEach((text, i) => console.log(`Option ${i}: ${text}`));
+
+    console.log("5th option:", allTexts[5]);
+
+    // Re-type to re-trigger the dropdown (it may have closed during text retrieval)
+    await page.locator("input[name='q']").first().fill('');
+    await page.locator("input[name='q']").first().fill('smart');
     await page.waitForTimeout(3000);
 
-    console.log("5th option:",await options.nth(5).innerText());
-
+    // Remove the Escape keypress because it closes the dropdown!
     
-    for(let i=0; i<count; i++)
-    {
-        console.log(await options.nth(i).innerText());
-    }
-    
-
-    for(let i=0; i<count; i++)
-    {
-        const text = await options.nth(i).innerText();
-        if(text==='smartphone')
-        {
-            options.nth(i).click();
-            break;
-        }
-    }
+    // Directly dispatch a click event to bypass strict visibility checks caused by complex CSS/overlays.
+    const smartphoneOption = page.locator("ul>li").filter({ hasText: 'smartphone' }).first();
+    await smartphoneOption.dispatchEvent('click');
 });

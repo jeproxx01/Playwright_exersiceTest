@@ -4,7 +4,9 @@ import {test, expect, Locator} from "@playwright/test"
 
 test('Auto Suggesting Dropdowns', async({page}) => {
 
-    await page.goto('https://www.flipkart.com');
+    // Use 'domcontentloaded' instead of default 'load'. E-commerce sites load many external scripts
+    // which can easily cause the 'load' event to timeout or get aborted in CI environments (like GitHub actions).
+    await page.goto('https://www.flipkart.com', { waitUntil: 'domcontentloaded' });
     
     // Wait at least 3 seconds for the login popup to potentially appear
     await page.waitForTimeout(3000);

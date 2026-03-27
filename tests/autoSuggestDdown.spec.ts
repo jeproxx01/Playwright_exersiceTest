@@ -6,14 +6,25 @@ test('Auto Suggesting Dropdowns', async({page}) => {
 
     await page.goto('https://www.flipkart.com');
     
-    // Close login popup if it appears (Flipkart often has a span with role button to close it)
-    try {
-        const closeBtn = page.locator('span[role="button"]').first();
-        await closeBtn.waitFor({ state: 'visible', timeout: 3000 });
-        await closeBtn.click();
-    } catch (e) {
+    // Wait at least 3 seconds for the login popup to potentially appear
+    await page.waitForTimeout(3000);
+
+    const emailInput = page.locator('form').filter({ hasText: 'Enter Email/Mobile' }).getByRole('textbox');
+    const requestOtpBtn = page.getByRole('button', { name: 'Request OTP' });
+
+    // Check if the login popup is visible without throwing an error
+    if (await emailInput.isVisible() && await requestOtpBtn.isVisible()) {
+        await expect(emailInput).toBeVisible();
+        await expect(requestOtpBtn).toBeVisible();
+        
+        // Close the login page
+        await page.getByRole('button', { name: '✕' }).click();
+    } else {
         console.log("No login popup appeared.");
     }
+
+    // Verify we can see the search box after handling the login page
+    await expect(page.getByRole('textbox', { name: 'Search for Products, Brands' })).toBeVisible();
 
     await page.locator("input[name='q']").first().fill('smart');
     await page.waitForTimeout(5000);

@@ -116,9 +116,7 @@ test('verify Frame 5 Functionality', async({page}) =>{
     const frameContent =  frame5.getByRole('link', { name: 'https://a9t9.com' });
     await frameContent.click();
     
-    await expect(page.locator('frame').nth(4).contentFrame().getByRole('link', { name: 'Ui.Vision by a9t9 software -' })).toBeVisible();
-    
-    await page.waitForTimeout(5000);
+    await expect(frame5.getByRole('link', { name: 'Ui.Vision by a9t9 software -' })).toBeVisible({ timeout: 5000 });
     
 });
 

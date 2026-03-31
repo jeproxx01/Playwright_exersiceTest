@@ -126,3 +126,48 @@ test('Verify Chrome CPU load in Dynamic Table', async({page}) => {
 
     await page.waitForTimeout(5000);
  });
+
+ test('Verify Disk Space of Firefox Process', async({page}) => {
+
+
+     await page.goto('https://testautomationpractice.blogspot.com/')
+
+
+    const table = page.locator('#taskTable tbody');
+    await expect (table).toBeVisible();
+
+    const rows = await table.locator('tr').all();
+    console.log("number of rows in the table: ", rows.length);
+    expect(rows).toHaveLength(4);
+
+    let diskSpace = '';
+
+    for(const row of rows)
+    {
+        const processName = await row.locator('td').nth(0).innerText();
+
+        if(processName === 'Firefox')
+        {
+            diskSpace = await row.locator('td',{hasText:'MB/s'}).innerText();
+            console.log('Disk SPace of Firsfeox Process: ', diskSpace);
+            break;
+        }
+    }
+    await page.waitForTimeout(5000);
+
+    //compares the retrieved data
+    let firefoxSpace = await page.locator('.firefox-disk').innerText();
+
+    if(firefoxSpace.includes(diskSpace))
+    {
+        console.log('They are equal...')
+    }
+    else{
+        console.log('They are not equal...')
+    }
+
+
+    expect(firefoxSpace).toContain(diskSpace);
+    await page.waitForTimeout(5000);
+
+ });

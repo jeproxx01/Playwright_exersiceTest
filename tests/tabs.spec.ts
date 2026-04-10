@@ -23,6 +23,7 @@ test("handle tabs",async()=>{
 
     console.log("Title of the Parent page:", await pages[0].title());
     console.log("Title of the Child page:", await pages[1].title());
+    expect(pages).toHaveLength(2);
 
     //Approach 2: alternate
 

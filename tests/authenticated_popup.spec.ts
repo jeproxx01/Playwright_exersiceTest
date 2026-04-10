@@ -20,7 +20,6 @@ test("authenticated popup",async({browser})=>{
 
     await expect(page.locator('text=Congratulations')).toBeVisible();
 
-    await page.waitForTimeout(5000);
     */
 
     //Approach 2 

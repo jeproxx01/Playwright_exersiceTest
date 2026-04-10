@@ -29,7 +29,7 @@ test("authenticated popup",async({browser})=>{
 
     await page.waitForLoadState(); // wait ofr page loaded completely
 
-    await expect(page.locator('text=Congratulations')).toBeVisible();
+    await expect(page.locator('.example p')).toHaveText('Congratulations! You must have the proper credentials.');
 
     await page.waitForTimeout(5000);
 

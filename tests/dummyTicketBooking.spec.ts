@@ -20,7 +20,7 @@ async function selectDate(page: Page, selector: string, year: string, month: str
 
 test('Full Dummy Ticket Booking Automation', async ({ page }) => {
     
-    await page.goto('https://www.dummyticket.com/dummy-ticket-for-visa-application/');
+    await page.goto('https://www.dummyticket.com/dummy-ticket-for-visa-application/?wmc-currency=PHP');
 
     
     await page.locator('#product_549').check(); // Dummy ticket for Visa Application

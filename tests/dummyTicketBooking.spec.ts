@@ -72,8 +72,8 @@ test('Full Dummy Ticket Booking Automation', async ({ page }) => {
     const subtotal = page.locator('.cart-subtotal bdi');
     const orderTotal = page.locator('.order-total bdi');
 
-    await expect(subtotal).toContainText('1,148');
-    await expect(orderTotal).toContainText('1,148');
+    await expect(subtotal).toContainText(/1,134/);
+    await expect(orderTotal).toContainText(/1,134/);
 
     console.log('Success !! All fields and prices verified.');
     

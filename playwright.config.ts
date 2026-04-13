@@ -8,6 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
+    screenshot: 'off',
     trace: "on-first-retry",
     headless: true,
   },

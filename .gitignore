@@ -6,6 +6,8 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+.env
 
-
-/actionPrac1.spec.ts 
+#Files
+trace.spec.ts
+example.spec.ts
